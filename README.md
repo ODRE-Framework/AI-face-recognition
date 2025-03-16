@@ -22,8 +22,8 @@ This project is a real-time face recognition system built using FastAPI, OpenCV,
 
 ### 1. Clone the repository
 ```sh
-git clone <repo_url>
-cd <repo_name>
+git clone https://github.com/ODRE-Framework/AI-face-recognition.git
+cd AI-face-recognition
 
 ```
 
@@ -58,11 +58,6 @@ By default, the API will be available at [**http://127.0.0.1:8001/**](http://127
 - **Request**: Image blob (form-data)
 - **Response**: Face ID (UUID) if registration is successful.
 
-### **2. Real-Time Face Recognition**
-
-- **URL**: `WS /video-stream`
-- **Request**: Video frames
-- **Response**: PDF document if access is granted.
 
 ## Running with Docker
 
