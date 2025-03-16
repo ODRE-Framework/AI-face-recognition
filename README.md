@@ -18,6 +18,48 @@ This project is a real-time face recognition system built using FastAPI, OpenCV,
 - **HTTPX** for making asynchronous API requests
 - **JSON storage** for embedding persistence
 
+---
+
+## **Running with Docker**
+
+### **1️⃣ Docker Compose Deployment**
+
+Copy the following **`docker-compose.yml`** file and run:
+
+```bash
+docker-compose up
+
+```
+
+```yaml
+version: '3.0'
+services:
+  directory:
+    container_name: ia-recognition
+    image: acimmino/ia-recognition:latest
+    restart: unless-stopped
+    ports:
+      - "8000:9100"
+
+```
+
+### **2️⃣ Manual Docker Deployment**
+
+1. **Build the Docker Image**:
+    
+    ```bash
+    docker build -t ia-recognition-api .
+    
+    ```
+    
+2. **Run the Container**:
+    
+    ```bash
+    docker run -p 8000:9100 ia-recognition-api
+    
+    ```
+    
+
 ## Installation & Usage
 
 ### 1. Clone the repository
@@ -58,21 +100,3 @@ By default, the API will be available at [**http://127.0.0.1:8001/**](http://127
 - **Request**: Image blob (form-data)
 - **Response**: Face ID (UUID) if registration is successful.
 
-
-## Running with Docker
-
-You can containerize the project using Docker.
-
-1. **Build the Docker image**
-    
-    ```
-    docker build -t face-recognition-api .
-    
-    ```
-    
-2. **Run the container**
-    
-    ```
-    docker run -p 8001:8001 face-recognition-api
-    
-    ```
