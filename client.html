@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>AI Face Recognition</title>
+    <style>
+        .container {
+            display: flex;
+            align-items: center; /* Alinea los elementos verticalmente */
+        }
+        video {
+            width: 20%; /* Reduce el tamaño del video */
+            height: auto;
+            margin-right: 10px; /* Espacio entre el video y el PDF */
+        }
+        iframe {
+            width: 80%;
+            height: 500px;
+            border: none;
+        }
+    </style>
+</head>
+<body>
+    <h1>Processing...</h1>
+    <div class="container">
+        <video id="video" autoplay></video>
+        <iframe id="pdfViewer"></iframe>
+    </div>
+    <script src="static/client.js"></script>
+</body>
+</html>

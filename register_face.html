@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Face Registration</title>
+</head>
+<body>
+    <h2>Face Registration</h2>
+    <form id="registerForm">
+        <video id="video" width="320" height="240" autoplay></video>
+        <br>
+        <button type="button" id="capture">Capture</button>
+        <br>
+        <canvas id="canvas" width="320" height="240" style="display: none;"></canvas>
+        <br>
+        <button type="submit">Register</button>
+    </form>
+    <p id="responseMessage"></p>
+
+    <script>
+        const video = document.getElementById("video");
+        const canvas = document.getElementById("canvas");
+        const captureButton = document.getElementById("capture");
+        const context = canvas.getContext("2d");
+
+        navigator.mediaDevices.getUserMedia({ video: true })
+            .then(stream => {
+                video.srcObject = stream;
+            })
+            .catch(err => {
+                console.error("Error accessing the camera:", err);
+            });
+
+        captureButton.addEventListener("click", () => {
+            context.drawImage(video, 0, 0, canvas.width, canvas.height);
+            canvas.style.display = "block";
+        });
+
+        document.getElementById("registerForm").addEventListener("submit", async function(event) {
+            event.preventDefault();
+
+            const canvas = document.getElementById("canvas");
+            const video = document.getElementById("video");
+            const context = canvas.getContext("2d");
+
+            context.drawImage(video, 0, 0, canvas.width, canvas.height);
+            canvas.style.display = "block";
+
+            canvas.toBlob(async function(blob) {
+                if (!blob || blob.size === 0) {
+                    console.error("Error: Could not capture the image.");
+                    return;
+                }
+
+                let formData = new FormData();
+                formData.append("video_blob", blob, "face_image.png");
+
+                try {
+                    let response = await fetch("http://127.0.0.1:8001/register-face/", {
+                        method: "POST",
+                        body: formData
+                    });
+
+                    let result = await response.json();
+                    if (result.face_id) {
+                        document.getElementById("responseMessage").innerText = `Face successfully registered. UUID: ${result.face_id}`;
+                    } else {
+                        document.getElementById("responseMessage").innerText = result.error || "Unknown error.";
+                    }
+                } catch (error) {
+                    console.error("Error sending the image:", error);
+                }
+            }, "image/png");
+        });
+    </script>
+</body>
+</html>
